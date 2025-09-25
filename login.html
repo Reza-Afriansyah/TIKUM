@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="login-box">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    <button id="loginBtn" onclick="login()">Login</button>
+    <p id="errorMsg" class="error"></p>
+  </div>
+
+  <script>
+    async function login() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const errorMsg = document.getElementById("errorMsg");
+      const loginBtn = document.getElementById("loginBtn");
+
+      // Ganti tombol jadi loading
+      loginBtn.disabled = true;
+      loginBtn.innerHTML = `<div class="spinner"></div> Memuat...`;
+
+      const scriptURL = "https://script.google.com/macros/s/AKfycbzbbfsQfOkODPZ0UC7_ry1hnVkDtmFOcU3otcXtzW4UssEcQOxle9RuXkmqHfC37T_l/exec";
+
+      try {
+        const response = await fetch(scriptURL, {
+          method: "POST",
+          body: new URLSearchParams({ username, password })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          window.location.href = "admin.html";
+        } else {
+          errorMsg.textContent = "Username atau password salah!";
+        }
+      } catch (err) {
+        errorMsg.textContent = "Terjadi kesalahan koneksi.";
+      } finally {
+        loginBtn.disabled = false;
+        loginBtn.innerHTML = "Login";
+      }
+    }
+
+    // tekan Enter juga bisa login
+    document.addEventListener("keypress", function(e) {
+      if (e.key === "Enter") {
+        login();
+      }
+    });
+  </script>
+</body>
+</html>
