@@ -21,7 +21,8 @@
       const password = document.getElementById("password").value;
       const errorMsg = document.getElementById("errorMsg");
 
-      const scriptURL = "https://script.google.com/macros/s/AKfycbyw5xJc1Xq1fLgJFjEllUnHaNAQyE-XCZbw62I94g5JcjkTg1A8lJF5IhdPV9uD6cKh/exec"; // ganti dengan Web App URL
+      // ganti dengan URL Web App hasil deploy Apps Script
+      const scriptURL = "https://script.google.com/macros/s/AKfycbx85T-ZiJWok0KqJEjXuy55GNQ9BH4tNu-Pxt9BisijakNsXKWWmwIH0EFkNLDOIADe/exec";
 
       try {
         const response = await fetch(scriptURL, {
@@ -35,9 +36,9 @@
         const result = await response.json();
 
         if (result.success) {
-          window.location.href = "admin.html"; // kalau valid → ke admin.html
+          window.location.href = "admin.html"; // kalau login valid
         } else {
-          errorMsg.textContent = "Username atau password salah!";
+          errorMsg.textContent = result.error || "Username atau password salah!";
         }
       } catch (err) {
         errorMsg.textContent = "Terjadi kesalahan koneksi.";
