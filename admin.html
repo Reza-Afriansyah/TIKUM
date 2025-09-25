@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Reservasi Mini Soccer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Admin Reservasi Mini Soccer</h1>
+  <table id="reservasiTable">
+    <thead>
+      <tr>
+        <th>Nama</th>
+        <th>Jam</th>
+        <th>Tanggal</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    const scriptURL = "PASTE_URL_WEB_APP"; // ganti dengan URL Apps Script
+
+    async function loadReservasi() {
+      try {
+        const response = await fetch(scriptURL);
+        const data = await response.json();
+
+        let tbody = document.querySelector("#reservasiTable tbody");
+        tbody.innerHTML = "";
+
+        data.forEach(row => {
+          let tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${row.Nama}</td>
+            <td>${row.Jam}</td>
+            <td>${row.Tanggal}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        console.error("Gagal load data:", err);
+      }
+    }
+
+    loadReservasi();
+  </script>
+</body>
+</html>
